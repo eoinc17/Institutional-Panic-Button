@@ -1,12 +1,8 @@
 package com.example.eoin.panicbutton2017;
 
-import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.SmsManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,7 +27,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     private DatabaseReference databaseReference;
 
     //our new views
-    private EditText editTextName, editTextAddress;
+    private EditText editTextName, editTextAddress, editTextNumber;
     private Button buttonSave;
 
     @Override
@@ -58,6 +54,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         //getting the views from xml resource
         editTextAddress = (EditText) findViewById(R.id.editTextAddress);
         editTextName = (EditText) findViewById(R.id.editTextName);
+        editTextNumber = (EditText) findViewById(R.id.editTextNumber);
         buttonSave = (Button) findViewById(R.id.buttonSave);
 
 
@@ -72,22 +69,26 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
         //adding listener to button
         buttonLogout.setOnClickListener(this);
-        buttonSave.setOnClickListener(this); }
+        buttonSave.setOnClickListener(this);
+    }
 
 
     private void saveUserInformation() {
         //Getting values from database
         String name = editTextName.getText().toString().trim();
         String add = editTextAddress.getText().toString().trim();
+        String num = editTextNumber.getText().toString().trim();
 
-        //creating a userinformation object
-        UserInformation userInformation = new UserInformation(name, add);
+        Intent intent = new Intent(DetailsActivity.this, ProfileActivity.class);
+        intent.putExtra("message", "yes");
+        startActivity(intent);
 
         //getting the current logged in user
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
-
-        databaseReference.child(user.getUid()).setValue(userInformation);
+        databaseReference.child(user.getUid()).child("Name").setValue(name);
+        databaseReference.child(user.getUid()).child("Phone Number").setValue(num);
+        databaseReference.child(user.getUid()).child("Address").setValue(add);
 
         //displaying a success toast
         Toast.makeText(this, "Information Saved...", Toast.LENGTH_LONG).show();
@@ -107,9 +108,9 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
         if(view == buttonSave){
             saveUserInformation();
-                startActivity(new Intent(this, ProfileActivity.class));
-            }
+            startActivity(new Intent(this, ProfileActivity.class));
         }
-
-
     }
+
+
+}
