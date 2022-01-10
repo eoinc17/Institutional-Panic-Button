@@ -50,7 +50,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         messageToSend = "Shooter on campus, my email is " + usersName + ", my location is: \n" +
                 "http://maps.google.com/maps?q="+UsersLat+","+UsersLong+"("+usersName+")&z=14&ll="+UsersLat+","+UsersLong;
-        emergencyRespondersPhoneNumber = "07548136364";
+        emergencyRespondersPhoneNumber = "075#######";
 
         //if the user is not logged in
         //that means current user will return null
@@ -112,7 +112,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(getBaseContext(), "Calling Non-Emergency Support", Toast.LENGTH_SHORT).show();
 
                 //Call support
-                String url = "tel:07548136364";
+                String url = "tel:075#######";
                 Intent callIntent = new Intent(Intent.ACTION_CALL, Uri
                         .parse(url));
                 startActivity(callIntent);
